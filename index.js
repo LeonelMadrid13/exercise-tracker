@@ -62,7 +62,8 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   };
 
   EXERCISES.push(newExercise);
-  user["exercise"] = newExercise;
+  user["exercises"] = [];
+  user["exercises"].push(newExercise);
 
   return res.json(user);
 });

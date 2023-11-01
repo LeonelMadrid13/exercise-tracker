@@ -44,18 +44,22 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const user = USERS.find((user) => user._id == id).username;
 
   if(!date){
-    date = Date().toString().split(" ", 4).join(" ");
+    const currentDate = new Date();
+    date = currentDate.toISOString().split('T')[0];
   }
+
   const newExercise = {
     user,
     description,
-    duration,
+    duration: parseInt(duration),
     date,
     "_id": id
   };
 
   EXERCISES.push(newExercise);
-  return res.json(newExercise);
+  const updatedUser = { ...USERS.find(user => user._id == id), ...newExercise };
+
+  return res.json(updatedUser);
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
@@ -71,7 +75,7 @@ app.get("/api/users/:_id/logs", (req, res) => {
       }
     });
   }
-  
+
   if(limit){
     exercises = exercises.slice(0, limit);
   }

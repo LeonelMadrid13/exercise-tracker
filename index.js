@@ -53,6 +53,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   } else {
     date = new Date(date).toDateString();
   }
+  console.log(date)
 
   const newExercise = {
     username: user.username,

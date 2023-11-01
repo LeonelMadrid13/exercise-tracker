@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html')
 });
 
+// Create a new user
 app.post("/api/users", (req, res) => {
   const { username } = req.body;
   if(username === "") return res.json({"error": "username is required"});
@@ -32,16 +33,20 @@ app.post("/api/users", (req, res) => {
   return res.json(newUser);
 });
 
+
+// Get an array of all users
 app.get("/api/users", (req, res) => {
   return res.json(USERS);
 });
 
+
+// Add exercises to a user
 app.post("/api/users/:_id/exercises", (req, res) => {
   const { _id: id } = req.params;
   const { description, duration } = req.body;
   let { date } = req.body;
 
-  const user = USERS.find((user) => user._id == id).username;
+  const user = USERS.find((user) => user._id == id);
 
   if(!date){
     const currentDate = new Date();
@@ -49,7 +54,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   }
 
   const newExercise = {
-    user,
+    username: user.username,
     description,
     duration: parseInt(duration),
     date,
@@ -57,11 +62,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   };
 
   EXERCISES.push(newExercise);
-  const updatedUser = { ...USERS.find(user => user._id == id), ...newExercise };
+  user["exercise"] = newExercise;
 
-  return res.json(updatedUser);
+  return res.json(user);
 });
 
+
+// Get a full exercise log of any user
 app.get("/api/users/:_id/logs", (req, res) => {
   const { _id: id } = req.params;
   const { from, to, limit } = req.query;

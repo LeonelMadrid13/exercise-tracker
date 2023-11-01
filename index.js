@@ -49,7 +49,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const user = USERS.find((user) => user._id == id);
 
   if(!date){
-    date = Date().toString().split(' ', 4).join();
+    date = Date().toString().split(' ', 4).join(" ");
   } else {
     date = new Date(date).toDateString().split(',').join(' ');
   }

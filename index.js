@@ -51,7 +51,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   if(!date){
     date = Date().toString().split(' ', 4).join();
   } else {
-    date = new Date(date).toDateString().split(' ').slice(0, 4).join(' ');
+    date = new Date(date).toDateString();
   }
 
   const newExercise = {

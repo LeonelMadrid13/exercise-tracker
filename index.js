@@ -6,7 +6,7 @@ require('dotenv').config()
 app.use(cors())
 app.use(express.static('public'))
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html')
+  res.sendFile(__dirname + '/public/index.html')
 });
 
 
